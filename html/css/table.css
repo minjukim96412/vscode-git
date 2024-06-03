@@ -1,0 +1,27 @@
+table{
+    width: 400px;
+}
+
+
+table, td, th {
+    border: 1px solid rgb(254, 201, 218);
+    border-collapse: collapse;
+    text-align: center;
+}
+
+thead {
+    background-color: antiquewhite;
+}
+
+tfoot {
+    background-color: floralwhite;
+}
+
+td {
+    padding-right: 5px;
+    text-align: right;
+}
+
+caption {
+    font-size: 25px;
+}
