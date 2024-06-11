@@ -1,0 +1,340 @@
+AJAX
+• AJAX = 비동기 자바스크립트 및 XML. (Asynchronous JavaScript And XML.)
+• 빠르고 동적인 웹 페이지를 만들기 위한 기술입니다.
+• 소량의 데이터를 서버와 비동기적으로 교환하여 웹 페이지를 업데이트할 수 있게 해줍니다. 
+    이는 페이지 전체를 다시 로드하지 않고도 웹 페이지의 일부를 업데이트할 수 있다는 것을 의미합니다.
+• 사용하지 않는 클래식 웹 페이지는 콘텐츠가 변경되면 전체 페이지를 다시 로드해야 합니다.
+• 사용하는 애플리케이션의 예: 구글 지도, 지메일, 유튜브, 페이스북 탭.
+
+• AJAX는 인터넷 표준을 기반으로 하며 다음의 조합을 사용합니다:
+  - XMLHttpRequest 객체 (서버와 비동기적으로 데이터를 교환하기 위해) - 핵심
+  - 자바스크립트/DOM (정보를 표시하고 상호작용하기 위해)
+  - CSS (데이터를 스타일링하기 위해)
+• XML (데이터 전송 형식으로 자주 사용됨)
+• AJAX 애플리케이션은 브라우저와 플랫폼에 독립적입니다!
+
+The XMLHttpRequest Object
+    • 모든 최신 브라우저는 XMLHttpRequest 객체를 지원합니다. 
+        (IE5와 IE6은 ActiveXObject를 사용합니다.)
+    • XMLHttpRequest 객체는 서버와의 데이터 교환에 사용됩니다. 
+        이것은 전체 페이지를 다시 로드하지 않고도 웹 페이지의 일부를 업데이트할 수 있음을 의미합니다.
+
+    • 모든 최신 브라우저(IE7+, Firefox, Chrome, Safari, 및 Opera)는 내장된 XMLHttpRequest 객체를 가지고 있습니다.
+    • XMLHttpRequest 객체를 생성하는 문법:
+        variable = new XMLHttpRequest();
+
+    • 구 버전의 Internet Explorer(IE5와 IE6)는 ActiveX 객체를 사용합니다:
+        variable = new ActiveXObject("Microsoft.XMLHTTP");
+      
+    모든 최신 브라우저와 IE5, IE6을 처리하기 위해 XMLHttpRequest 객체를 지원하는지 확인하고, 
+    지원되는 경우 XMLHttpRequest 객체를 생성하고 그렇지 않은 경우 
+    ActiveXObject를 생성하는 방법은 다음과 같습니다:
+
+        var xhr;
+        if (window.XMLHttpRequest) {
+        // 모든 최신 브라우저 및 IE7 이상
+        xhr = new XMLHttpRequest();
+        } else {
+        // IE5, IE6
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+    이렇게 하면 `xhr` 변수에 현재 브라우저에 적합한 XMLHttpRequest 또는 ActiveXObject가 할당됩니다.
+    이제 `xhr` 변수를 사용하여 서버와 데이터를 교환할 수 있습니다.
+
+AJAX 상호작용의 간단한 예
+1. **HTML 파일 작성**:
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AJAX Interaction</title>
+        <script>
+            function fetchData() {
+                var xhr;
+                if (window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest(); // 모든 최신 브라우저 및 IE7 이상
+                } else {
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP"); // IE5, IE6
+                }
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        document.getElementById("output").innerHTML = xhr.responseText;
+                    }
+                };
+
+                xhr.open("GET", "backend.php", true);
+                xhr.send();
+            }
+        </script>
+    </head>
+    <body>
+        <h2>AJAX Interaction Example</h2>
+        <button onclick="fetchData()">Fetch Data</button>
+        <div id="output"></div>
+    </body>
+    </html>
+    ```
+
+2. **PHP 파일 작성**:
+    ```php
+    <?php
+    // 이 예제에서는 단순히 현재 시간을 반환합니다.
+    echo "The current time is " . date("h:i:sa");
+    ?>
+    ```
+
+위의 코드를 사용하여 브라우저에서 "Fetch Data" 버튼을 클릭하면, 
+현재 시간이 나타나는 것을 확인할 수 있습니다. 
+
+서버에 요청을 보내기 위해 XMLHttpRequest 객체의 open() 및 send() 메서드를 사용합니다. 
+
+- open() 메서드는 요청을 초기화하는 데 사용됩니다. 
+    요청의 유형(GET 또는 POST), URL 및 요청이 비동기적인지 동기적인지를 지정합니다.
+- send() 메서드는 요청을 서버로 보냅니다. 
+    이 메서드를 사용하여 요청을 서버로 보내고, 
+    요청이 비동기적인 경우 서버로부터의 응답을 기다릴 필요가 없습니다.
+
+이 두 메서드를 함께 사용하여 XMLHttpRequest 객체를 사용하여 
+    서버로 요청을 보내고 응답을 처리할 수 있습니다.
+
+### 1. open() 메서드:
+- XMLHttpRequest 객체를 초기화합니다.
+- 서버에 보낼 요청의 유형(GET, POST 등)과 요청할 URL을 지정합니다.
+- 비동기적인 요청 여부를 설정할 수 있습니다.
+
+        #### 문법:
+        ```javascript
+        xhr.open(method, url [, async [, user [, password]]]);
+        ```
+
+        #### 매개변수:
+        - `method`: 요청의 HTTP 메서드를 지정합니다. 일반적으로 'GET' 또는 'POST'를 사용합니다.
+        - `url`: 요청을 보낼 URL을 지정합니다.
+        - `async` (선택사항): 요청이 비동기적인지(true) 동기적인지(false) 여부를 지정합니다. 기본값은 true입니다.
+        - `user` (선택사항): 인증에 사용할 사용자 이름을 지정합니다.
+        - `password` (선택사항): 인증에 사용할 암호를 지정합니다.
+
+### 2. send() 메서드:
+- 요청을 서버로 보냅니다.
+- POST 요청의 경우, 요청 본문에 데이터를 포함하여 보낼 수 있습니다.
+- 요청을 보낸 후, 서버로부터의 응답을 기다리지 않고 바로 다음 코드를 실행합니다.
+
+        #### 문법:
+        ```javascript
+        xhr.send([body]);
+        ```
+
+        #### 매개변수:
+        - `body` (선택사항): POST 요청의 경우, 요청 본문에 보낼 데이터를 지정합니다.
+
+• GET은 POST보다 간단하고 빠르며 대부분의 경우에 사용할 수 있습니다.
+• 그러나 다음과 같은 경우에는 항상 POST 요청을 사용하십시오:
+   - 캐시된 파일이 선택사항이 아닐 때(서버의 파일이나 데이터베이스를 업데이트할 때)
+   - 서버로 대량의 데이터를 보낼 때(POST에는 크기 제한이 없음)
+   - 사용자 입력을 보낼 때(알려지지 않은 문자가 포함될 수 있는 경우), 
+        GET보다 POST가 더 견고하고 안전합니다.
+
+GET과 POST 사용법
+
+### 1. GET 방식:
+    - GET 요청은 URL에 데이터를 첨부하여 서버에 전송됩니다. 
+        이러한 데이터는 URL의 일부로 노출되므로 보안에 취약할 수 있습니다.
+    - GET 요청은 캐시될 수 있으며, 브라우저 히스토리에 남을 수 있습니다.
+    - 주로 정보를 검색하거나, 쿼리 매개변수를 전송할 때 사용됩니다.
+
+        #### JavaScript를 사용하여 GET 요청 보내는 방법:
+        ```javascript
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://api.example.com/data?key1=value1&key2=value2', true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                var response = xhr.responseText;
+                console.log(response);
+            }
+        };
+        xhr.send();
+        ```
+
+### 2. POST 방식:
+    - POST 요청은 요청 본문에 데이터를 포함하여 서버에 전송됩니다. 따라서 URL에 데이터가 노출되지 않으므로 GET 요청보다 안전합니다.
+    - POST 요청은 캐시되지 않으며, 브라우저 히스토리에 남지 않습니다.
+    - 주로 데이터를 서버로 전송하거나, 큰 양의 데이터를 전송할 때 사용됩니다.
+
+    #### JavaScript를 사용하여 POST 요청 보내는 방법:
+    ```javascript
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://api.example.com/post-data', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var response = xhr.responseText;
+            console.log(response);
+        }
+    };
+    var formData = 'key1=value1&key2=value2';
+    xhr.send(formData);
+    ```
+
+    XMLHttpRequest 객체를 사용하여 GET 및 POST 요청을 보내는 방법을 보여주고 있습니다. 
+    요청을 보내기 전에 요청을 준비하고(`open()` 메서드), 
+    요청 헤더를 설정하고(`setRequestHeader()` 메서드),
+    필요한 경우 요청 본문을 포함하여 요청을 보냅니다(`send()` 메서드). 
+    요청이 완료되면 서버로부터의 응답을 처리합니다.
+
+• AJAX는 비동기적 JavaScript와 XML의 약자로,
+     XMLHttpRequest 객체가 AJAX로 작동하려면 open() 메서드의 async 매개변수를 true로 설정해야 합니다.
+• 비동기 요청을 보내는 것은 웹 개발자에게 큰 향상을 제공합니다. 
+    서버에서 수행되는 많은 작업은 매우 시간이 소요됩니다. 
+    AJAX 이전에는 이 작업이 응용 프로그램을 멈추거나 정지시킬 수 있었습니다.
+• AJAX를 사용하면 JavaScript가 서버 응답을 기다리는 동안 다른 스크립트를 실행하고, 
+    응답이 준비되면 응답을 처리할 수 있습니다.
+
+async=true 일 때,
+    응답이 준비되었을 때 실행할 함수를 onreadystatechange 이벤트에서 지정합니다.
+
+XMLHttpRequest 객체를 사용하여 비동기 GET 요청을 보내고, 
+응답이 준비되었을 때 특정 함수를 실행하는 간단한 예제
+
+        ```javascript
+        // XMLHttpRequest 객체 생성
+        var xhr = new XMLHttpRequest();
+
+        // 비동기 요청 설정
+        xhr.open('GET', 'https://api.example.com/data', true);
+
+        // 응답이 준비되었을 때 실행할 함수 지정
+        xhr.onreadystatechange = function() {
+            // readyState 값이 4이면 응답이 완료된 상태
+            // status 값이 200이면 요청이 성공적으로 완료됨을 의미
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // 응답 처리 함수 호출
+                handleResponse(xhr.responseText);
+            }
+        };
+
+        // 요청 보내기
+        xhr.send();
+
+        // 응답 처리 함수 정의
+        function handleResponse(responseText) {
+            // 응답 데이터를 사용하여 원하는 동작을 수행
+            console.log('Received response:', responseText);
+        }
+        ```
+
+`xhr.onreadystatechange` 이벤트 핸들러를 사용하여 응답이 준비되었을 때 실행할 함수를 지정했습니다. 
+`readyState` 값이 4이고 `status` 값이 200일 때 `handleResponse()` 함수가 호출되어 응답을 처리합니다.
+
+async=false
+open() 메서드의 세 번째 매개변수를 false로 변경
+async=false를 사용하는 것은 권장되지 않지만, 몇 가지 작은 요청에 대해서는 괜찮을 수 있습니다.
+서버 응답이 준비될 때까지 JavaScript가 계속 실행되지 않는다는 것을 기억하십시오. 
+서버가 바쁘거나 느린 경우, 응용 프로그램이 멈추거나 정지될 수 있습니다.
+
+• getAllResponseHeaders()를 사용하여 모든 응답 헤더를 가져옵니다.
+• getResponseHeader()를 사용하여 특정 응답 헤더를 가져옵니다.
+
+XMLHttpRequest 객체를 사용하여 서버로 GET 요청을 보내고, 응답 헤더를 가져오는 예제
+
+        ```javascript
+        // XMLHttpRequest 객체 생성
+        var xhr = new XMLHttpRequest();
+
+        // 비동기 GET 요청 설정
+        xhr.open('GET', 'https://api.example.com/data', true);
+
+        // 요청 완료 후 실행할 함수 지정
+        xhr.onreadystatechange = function() {
+            // readyState 값이 4이면 응답이 완료된 상태
+            // status 값이 200이면 요청이 성공적으로 완료됨을 의미
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // 모든 응답 헤더 가져오기
+                var allHeaders = xhr.getAllResponseHeaders();
+                console.log('All Response Headers:', allHeaders);
+
+                // 특정 응답 헤더 가져오기 (예: Content-Type)
+                var contentTypeHeader = xhr.getResponseHeader('Content-Type');
+                console.log('Content-Type Header:', contentTypeHeader);
+            }
+        };
+
+        // 요청 보내기
+        xhr.send();
+        ```
+
+이 예제에서는 XMLHttpRequest 객체를 사용하여 비동기 GET 요청을 보내고, 
+요청이 완료된 후에 응답 헤더를 가져오는 방법을 보여줍니다. 
+
+
+-서버로부터 응답을 받으려면 XMLHttpRequest 객체의 responseText 또는 responseXML 속성을 사용합니다.
+
+    `responseText`
+        서버로부터 받은 응답 데이터를 텍스트 형식으로 반환합니다. 
+        이 속성은 주로 텍스트 기반의 응답을 받을 때 사용됩니다. 
+        예를 들어, JSON이나 일반 텍스트 데이터를 받을 때 사용할 수 있습니다.
+
+    `responseXML` 
+        서버로부터 받은 응답 데이터를 XML 문서로 파싱하여 반환합니다. 
+        이 속성은 주로 XML 형식의 데이터를 받을 때 사용됩니다. 
+        예를 들어, 서버가 XML 형식으로 데이터를 보내는 경우에 사용할 수 있습니다.
+
+이러한 속성들은 XMLHttpRequest 객체의 요청이 완료된 후에 사용할 수 있습니다. 
+일반적으로 readyState 값이 4가 되고 status 값이 200일 때 이 속성들을 사용하여 응답 데이터를 처리합니다.
+
+## readystatechange event 
+
+    • 서버에 요청을 보낼 때, 응답에 기반하여 일부 동작을 수행하려 합니다.
+    • onreadystatechange 이벤트는 readyState가 변경될 때마다 트리거됩니다.
+    • readyState 속성은 XMLHttpRequest의 상태를 나타냅니다.
+    • XMLHttpRequest 객체의 세 가지 중요한 속성: 
+        (1) `onreadystatechange`, 
+        (2) `readyState`, 
+        (3) `status`
+
+    1. `onreadystatechange`:
+    - XMLHttpRequest 객체의 상태가 변경될 때마다 호출되는 이벤트 핸들러입니다.
+    - 일반적으로 이벤트 핸들러를 설정하여 서버로부터의 응답을 처리합니다.
+    - 예를 들어, 응답이 완료되었을 때 적절한 동작을 수행하는 함수를 호출할 수 있습니다.
+
+    2. `readyState`:
+    - 현재 XMLHttpRequest 객체의 상태를 나타내는 속성입니다.
+    - 다음과 같은 다섯 가지 상태를 가질 수 있습니다:
+        - 0: 초기화되지 않음 (open() 메서드가 호출되지 않음)
+        - 1: 서버와 연결됨 (open() 메서드가 호출되고 send() 메서드가 아직 호출되지 않음)
+        - 2: 서버에서 데이터를 받음 (send() 메서드가 호출되고 응답을 기다리는 중)
+        - 3: 받음 (응답이 부분적으로 받아지는 중)
+        - 4: 완료됨 (응답이 완전히 받아진 상태)
+
+    **0 (UNSENT)**:
+    - 초기화되지 않은 상태입니다.
+    - `open()` 메서드가 아직 호출되지 않았습니다.
+
+    **1 (OPENED)**:
+    - 객체가 초기화되었고, 요청이 아직 전송되지 않은 상태입니다.
+    - `open()` 메서드가 호출되었지만, `send()` 메서드는 아직 호출되지 않았습니다.
+
+    3. **2 (HEADERS_RECEIVED)**:
+    - `send()` 메서드가 호출되고, 서버가 요청을 받았지만, 응답 헤더를 아직 받지 않은 상태입니다.
+    - 응답 헤더가 수신되면 이 상태가 변경됩니다.
+
+    **3 (LOADING)**:
+    - 응답 헤더와 일부 응답 데이터를 받았지만, 아직 전체 응답 데이터를 받지 않은 상태입니다.
+    - 응답이 일부분만 수신된 경우에는 이 상태로 설정됩니다.
+
+    **4 (DONE)**:
+    - 요청이 완료되어 응답 데이터가 모두 수신된 상태입니다.
+    - 응답 데이터를 처리할 수 있습니다.
+
+    3. `status`:
+    - 서버의 HTTP 상태 코드를 나타내는 속성입니다.
+    - 일반적으로 200은 성공적으로 처리된 상태를 나타냅니다.
+    - 예를 들어, 404는 페이지를 찾을 수 없음을 나타냅니다.
+
+    • onreadystatechange 이벤트에서는 서버 응답이 처리 준비가 되었을 때 어떤 일이 발생할지를 지정합니다.
+    • readyState가 4이고 status가 200일 때, 응답이 준비된 것입니다.
+    • 참고: onreadystatechange 이벤트는 readyState가 변경될 때마다 (0부터 4까지) 다섯 번 트리거됩니다.
+
