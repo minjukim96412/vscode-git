@@ -1,0 +1,770 @@
+##JQuery
+JQuery란?
+    - 가볍고 "적은 양으로 더 많은 것을 처리하는" JavaScript 라이브러리.
+    - 목적은 웹 사이트에서 JavaScript를 사용하는 것을 훨씬 쉽게 만드는 것
+    - 많은 줄의 JavaScript 코드가 필요한 일반적인 작업들을 쉽게 해결할 수 있도록 하고, 
+        이를 단일 코드 라인으로 호출할 수 있는 메서드로 래핑
+    - AJAX 호출 및 DOM 조작과 같은 JavaScript의 복잡한 작업들을 단순화
+    - jQuery 라이브러리에는 다음과 같은 기능이 포함되어 있다.
+        - HTML/DOM 조작
+        - CSS 조작
+        - HTML 이벤트 메서드
+        - 효과 및 애니메이션
+        - AJAX
+        - 유틸리티
+
+    - 다른 JavaScript 프레임워크들이 많이 있지만, 
+        jQuery가 가장 인기가 많고 확장 가능
+    - 웹에서 가장 큰 회사들 중 많은 회사들이 jQuery를 사용
+        - 구글,마이크로소프트,IBM,넷플릭스...
+
+    - 웹 사이트에서 jQuery를 사용하는 여러 가지 방법
+        - jQuery.com에서 jQuery 라이브러리를 다운로드
+        - Google과 같은 CDN에서 jQuery를 불러오기
+
+jQuery Syntax 
+    - jQuery 구문은 HTML 요소를 선택하고 해당 요소에 어떤 동작을 수행하는 데 사용하도록 설계
+    - 기본 구문: $(selector).action()
+        - $ 기호는 jQuery를 정의하거나 액세스하는 데 사용
+        - (selector)는 HTML 요소를 "쿼리(또는 찾기)"하는 데 사용
+        - jQuery action()은 요소에 수행할 동작
+    - 예시:
+        - $(this).hide(): 현재 요소를 숨깁니다.
+        - $("p").hide(): 모든 <p> 요소를 숨깁니다.
+        - $(".test").hide(): class="test"인 모든 요소를 숨깁니다.
+        - $("#test").hide(): id="test"인 요소를 숨깁니다. 
+
+Syntax : The Document Ready Event
+    - 모든 jQuery 메서드는 document ready 이벤트 안에 있음
+    - 이는 문서가 완전히 로딩되기 전에 (준비됨) jQuery 코드가 실행되는 것을 방지하기 위한 것
+    - 문서가 완전히 로딩되고 준비될 때까지 기다리는 것이 좋은 습관 
+        이는 또한 JavaScript 코드를 문서의 body 앞에 head 섹션에 둘 수 있게 함
+    - 다음은 문서가 완전히 로드되기 전에 메서드가 실행되면 실패할 수 있는 몇 가지 작업의 예시:
+    - 아직 생성되지 않은 요소를 숨기려고 시도하기
+    - 아직 로드되지 않은 이미지의 크기를 가져오려고 시도하기
+
+        ```javascript
+        $(document).ready(function(){
+        // jQuery 코드 블록
+        });
+        ```
+
+        이를 축약해서 사용할 수도 있습니다:
+
+        ```javascript
+        $(function(){
+        // jQuery 코드 블록
+        });
+        ```
+
+    .click(): 클릭 이벤트에 반응하여 요소에 대한 클릭 핸들러를 추가합니다.
+    .hover(): 마우스가 요소 위에 올라가거나 떠날 때 이벤트를 처리합니다.
+    .on(): 여러 종류의 이벤트에 대한 핸들러를 추가합니다.
+    .keydown(): 키보드 키를 누를 때 이벤트를 처리합니다.
+    .submit(): 폼을 제출할 때 이벤트를 처리합니다.
+    .focus() / .blur(): 요소가 포커스를 받거나 잃을 때 이벤트를 처리합니다.
+    .change(): 입력 요소의 값이 변경될 때 이벤트를 처리합니다.
+    .scroll(): 요소를 스크롤할 때 이벤트를 처리합니다.
+    .resize(): 창 크기가 변경될 때 이벤트를 처리합니다.
+    .load(): 요소나 페이지가 로드될 때 이벤트를 처리합니다.
+    .mouseenter() / .mouseleave(): 마우스가 요소에 진입하거나 떠날 때 이벤트를 처리합니다.
+    .css(): 요소의 CSS 속성을 설정하거나 가져오는 데 사용됩니다.
+    .addClass() / .removeClass(): 요소에 클래스를 추가하거나 제거합니다.
+    .toggleClass(): 요소에 클래스를 추가하거나 제거합니다. 
+                    클래스가 이미 존재하는 경우 제거하고, 존재하지 않는 경우 추가합니다.
+    .attr(): 요소의 속성 값을 가져오거나 설정합니다.
+    .text(): 요소의 텍스트 내용을 가져오거나 설정합니다.
+    .html(): 요소의 HTML 내용을 가져오거나 설정합니다.
+    .hide() / .show() / .toggle(): 요소를 숨기거나 보여줍니다.
+    .parent() / .children(): 부모 요소나 자식 요소를 선택합니다.
+
+jQuery Selectors
+    • jQuery 선택자를 사용하면 HTML 요소를 선택하고 조작할 수 있습니다.
+    • jQuery 선택자는 HTML 요소를 "찾아내는" 데 사용, 
+        이는 그들의 id, 클래스, 유형, 속성, 속성 값 등을 기반 
+        이는 기존의 CSS 선택자를 기반으로 하며, 
+        그 외에도 몇 가지 고유한 사용자 정의 선택자를 가지고 있습니다.
+    • jQuery의 모든 선택자는 달러 기호와 괄호로 시작합니다: $().
+
+jQuery 선택자 예제
+1. **기본 선택자**
+
+   - **모든 요소 선택**:
+     ```javascript
+     $("*").hide(); // 모든 요소를 숨깁니다.
+     ```
+
+   - **태그 선택**:
+     ```javascript
+     $("p").hide(); // 모든 <p> 요소를 숨깁니다.
+     ```
+
+   - **아이디 선택**:
+     ```javascript
+     $("#myId").hide(); // id가 "myId"인 요소를 숨깁니다.
+     ```
+
+   - **클래스 선택**:
+     ```javascript
+     $(".myClass").hide(); // 클래스가 "myClass"인 모든 요소를 숨깁니다.
+     ```
+
+2. **복합 선택자**
+
+   - **여러 요소 선택**:
+     ```javascript
+     $("p, .myClass, #myId").hide(); // 모든 <p> 요소, 클래스가 "myClass"인 요소, id가 "myId"인 요소를 숨깁니다.
+     ```
+
+3. **속성 선택자**
+
+   - **특정 속성을 가진 요소 선택**:
+     ```javascript
+     $("input[type='text']").hide(); // type 속성이 "text"인 모든 <input> 요소를 숨깁니다.
+     ```
+
+   - **특정 값의 속성을 가진 요소 선택**:
+     ```javascript
+     $("a[href='https://example.com']").hide(); // href 속성이 "https://example.com"인 모든 <a> 요소를 숨깁니다.
+     ```
+
+4. **계층 선택자**
+
+   - **자식 요소 선택**:
+     ```javascript
+     $("ul > li").hide(); // 모든 <ul>의 자식 <li> 요소를 숨깁니다.
+     ```
+
+   - **후손 요소 선택**:
+     ```javascript
+     $("div p").hide(); // 모든 <div>의 후손 <p> 요소를 숨깁니다.
+     ```
+
+5. **필터 선택자**
+
+   - **첫 번째 요소 선택**:
+     ```javascript
+     $("p:first").hide(); // 첫 번째 <p> 요소를 숨깁니다.
+     ```
+
+   - **마지막 요소 선택**:
+     ```javascript
+     $("p:last").hide(); // 마지막 <p> 요소를 숨깁니다.
+     ```
+
+   - **짝수 인덱스 요소 선택**:
+     ```javascript
+     $("tr:even").hide(); // 짝수 인덱스의 <tr> 요소를 숨깁니다.
+     ```
+
+   - **홀수 인덱스 요소 선택**:
+     ```javascript
+     $("tr:odd").hide(); // 홀수 인덱스의 <tr> 요소를 숨깁니다.
+     ```
+
+6. **폼 선택자**
+
+   - **입력 요소 선택**:
+     ```javascript
+     $(":input").hide(); // 모든 입력 요소를 숨깁니다.
+     ```
+
+   - **텍스트 입력 요소 선택**:
+     ```javascript
+     $(":text").hide(); // 모든 텍스트 입력 요소를 숨깁니다.
+     ```
+
+   - **체크박스 선택**:
+     ```javascript
+     $(":checkbox").hide(); // 모든 체크박스를 숨깁니다.
+     ```
+
+
+ hide() and show()
+
+• 문법:
+```javascript
+$(selector).hide(speed, callback);
+$(selector).show(speed, callback);
+```
+
+• 선택적인 `speed` 매개변수는 숨기거나 보이는 속도를 지정하며, 
+    다음 값들을 가질 수 있습니다: "slow", "fast", 또는 밀리초 단위의 시간.
+• 선택적인 `callback` 매개변수는 `hide()` 또는 `show()` 메서드가 완료된 후에 실행될 함수입니다.
+• 다음 예제는 `hide()` 메서드에서 `speed` 매개변수를 사용하는 방법을 보여줍니다:
+
+```javascript
+$(document).ready(function(){
+    $("#hideButton").click(function(){
+        $("#element").hide("slow", function(){
+            alert("The element is now hidden.");
+        });
+    });
+    $("#showButton").click(function(){
+        $("#element").show("fast", function(){
+            alert("The element is now visible.");
+        });
+    });
+});
+```
+
+`#hideButton`을 클릭하면 `#element`가 "slow" 속도로 숨겨지고, 
+숨겨진 후에 알림 창이 표시됩니다. 
+`#showButton`을 클릭하면 `#element`가 "fast" 속도로 보이게 되며, 
+보인 후에 알림 창이 표시됩니다.
+
+Hide/Show : toggle()
+
+• `toggle()` 메서드를 통해 `hide()`와 `show()` 메서드 사이를 전환할 수 있습니다.
+• 보이는 요소는 숨겨지고 숨겨진 요소는 보이게 됩니다:
+• 문법:
+```javascript
+$(selector).toggle(speed, callback);
+```
+• 선택적인 `speed` 매개변수는 다음 값들을 가질 수 있습니다: 
+    "slow", "fast", 또는 밀리초 단위의 시간.
+• 선택적인 `callback` 매개변수는 `toggle()` 메서드가 완료된 후에 실행될 함수입니다.
+
+다음은 `toggle()` 메서드를 사용하는 예제입니다:
+
+```javascript
+$(document).ready(function(){
+    $("#toggleButton").click(function(){
+        $("#element").toggle("slow", function(){
+            alert("The element's visibility has been toggled.");
+        });
+    });
+});
+```
+
+`#toggleButton`을 클릭하면 `#element`가 "slow" 속도로 보이거나 숨겨지며, 
+그 후에 알림 창이 표시됩니다.
+
+Fading : fadeIn()
+• jQuery의 `fadeIn()` 메서드는 숨겨진 요소를 서서히 나타나게 하는 데 사용됩니다.
+• 문법:
+```javascript
+$(selector).fadeIn(speed, callback);
+```
+• 선택적인 `speed` 매개변수는 효과의 지속 시간을 지정합니다. 
+    이 값은 "slow", "fast", 또는 밀리초 단위의 시간을 가질 수 있습니다.
+• 선택적인 `callback` 매개변수는 페이드 인 효과가 완료된 후에 실행될 함수입니다.
+• 다음 예제는 `fadeIn()` 메서드를 다양한 매개변수와 함께 사용하는 방법을 보여줍니다:
+
+$(document).ready(function(){
+    $("#fadeButton").click(function(){
+        // 기본 속도 사용
+        $("#element1").fadeIn();
+
+        // "slow" 속도 사용
+        $("#element2").fadeIn("slow");
+
+        // 2000 밀리초 속도 사용
+        $("#element3").fadeIn(2000, function(){
+            alert("Fade in completed for element3.");
+        });
+    });
+});
+```
+ `#fadeButton`을 클릭하면 `#element1`은 기본 속도로, 
+ `#element2`는 "slow" 속도로, `#element3`은 2000 밀리초 속도로 페이드 인됩니다. 
+ `#element3`이 페이드 인이 완료되면 알림 창이 표시됩니다.
+
+ Fading : fadeOut()
+
+• 보이는 요소를 서서히 사라지게 하는 데 사용됩니다.
+• 문법:
+```javascript
+$(selector).fadeOut(speed, callback);
+```
+• 선택적인 `speed` 매개변수는 효과의 지속 시간을 지정합니다. 
+    이 값은 "slow", "fast", 또는 밀리초 단위의 시간을 가질 수 있습니다.
+• 선택적인 `callback` 매개변수는 페이드 아웃 효과가 완료된 후에 실행될 함수입니다.
+• 다음 예제는 `fadeOut()` 메서드를 다양한 매개변수와 함께 사용하는 방법을 보여줍니다:
+
+```javascript
+$(document).ready(function(){
+    $("#fadeButton").click(function(){
+        // 기본 속도 사용
+        $("#element1").fadeOut();
+
+        // "slow" 속도 사용
+        $("#element2").fadeOut("slow");
+
+        // 2000 밀리초 속도 사용
+        $("#element3").fadeOut(2000, function(){
+            alert("Fade out completed for element3.");
+        });
+    });
+});
+```
+
+`#fadeButton`을 클릭하면 `#element1`은 기본 속도로, 
+`#element2`는 "slow" 속도로, `#element3`은 2000 밀리초 속도로 페이드 아웃됩니다. 
+`#element3`이 페이드 아웃이 완료되면 알림 창이 표시됩니다.
+
+Fading : fadeToggle()
+• jQuery의 `fadeToggle()` 메서드는 `fadeIn()`과 `fadeOut()` 메서드 사이를 전환합니다.
+• 요소들이 페이드 아웃된 상태라면, `fadeToggle()`은 요소들을 페이드 인시킵니다.
+• 요소들이 페이드 인된 상태라면, `fadeToggle()`은 요소들을 페이드 아웃시킵니다.
+• 문법:
+        $(selector).fadeToggle(speed, callback);
+• 선택적인 `speed` 매개변수는 효과의 지속 시간을 지정합니다. 
+    이 값은 "slow", "fast", 또는 밀리초 단위의 시간을 가질 수 있습니다.
+• 선택적인 `callback` 매개변수는 페이드 토글 효과가 완료된 후에 실행될 함수입니다.
+• 다음 예제는 `fadeToggle()` 메서드를 다양한 매개변수와 함께 사용하는 방법을 보여줍니다:
+
+```javascript
+$(document).ready(function(){
+    $("#fadeToggleButton").click(function(){
+        // 기본 속도 사용
+        $("#element1").fadeToggle();
+
+        // "slow" 속도 사용
+        $("#element2").fadeToggle("slow");
+
+        // 2000 밀리초 속도 사용
+        $("#element3").fadeToggle(2000, function(){
+            alert("Fade toggle completed for element3.");
+        });
+    });
+});
+```
+
+`#fadeToggleButton`을 클릭하면 `#element1`은 기본 속도로, 
+`#element2`는 "slow" 속도로, `#element3`은 2000 밀리초 속도로 페이드 토글됩니다. 
+`#element3`이 페이드 토글이 완료되면 알림 창이 표시됩니다.
+
+Fading : fadeTo() 
+• jQuery의 `fadeTo()` 메서드는 주어진 불투명도(0과 1 사이의 값)로 페이드 아웃합니다.
+• 문법:
+```javascript
+$(selector).fadeTo(speed, opacity, callback);
+```
+• 필수 `speed` 매개변수는 효과의 지속 시간을 지정합니다. 
+    이 값은 "slow", "fast", 또는 밀리초 단위의 시간을 가질 수 있습니다.
+• 필수 `opacity` 매개변수는 `fadeTo()` 메서드에서 주어진 불투명도로 페이드를 지정합니다. 
+    (값은 0과 1 사이)
+• 선택적인 `callback` 매개변수는 함수가 완료된 후에 실행될 함수입니다.
+• 다음 예제는 `fadeTo()` 메서드를 다양한 매개변수와 함께 사용하는 방법을 보여줍니다:
+
+```javascript
+$(document).ready(function(){
+    $("#fadeToButton").click(function(){
+        // 기본 속도와 0.5의 불투명도로 페이드
+        $("#element1").fadeTo("slow", 0.5);
+
+        // 1000 밀리초 속도와 0.8의 불투명도로 페이드
+        $("#element2").fadeTo(1000, 0.8);
+
+        // 2000 밀리초 속도와 0.3의 불투명도로 페이드, 완료 후 콜백 함수 실행
+        $("#element3").fadeTo(2000, 0.3, function(){
+            alert("Fade to opacity completed for element3.");
+        });
+    });
+});
+```
+
+`#fadeToButton`을 클릭하면 `#element1`은 "slow" 속도와 0.5의 불투명도로 페이드되고, 
+`#element2`는 1000 밀리초 속도와 0.8의 불투명도로 페이드되며, 
+`#element3`은 2000 밀리초 속도와 0.3의 불투명도로 페이드됩니다. 
+`#element3`이 페이드가 완료되면 알림 창이 표시됩니다.
+
+Sliding : slideDown() 
+
+• jQuery의 `slideDown()` 메서드는 요소를 슬라이드 다운(아래로 펼치기)하는 데 사용됩니다.
+• 문법:
+```javascript
+$(selector).slideDown(speed, callback);
+```
+• 선택적인 `speed` 매개변수는 효과의 지속 시간을 지정합니다. 
+    이 값은 "slow", "fast", 또는 밀리초 단위의 시간을 가질 수 있습니다.
+• 선택적인 `callback` 매개변수는 슬라이드가 완료된 후에 실행될 함수입니다.
+• 다음 예제는 `slideDown()` 메서드를 사용하는 방법을 보여줍니다:
+
+```javascript
+$(document).ready(function(){
+    $("#slideDownButton").click(function(){
+        // 기본 속도 사용
+        $("#element1").slideDown();
+
+        // "slow" 속도 사용
+        $("#element2").slideDown("slow");
+
+        // 1000 밀리초 속도 사용
+        $("#element3").slideDown(1000, function(){
+            alert("Slide down completed for element3.");
+        });
+    });
+});
+```
+
+ `#slideDownButton`을 클릭하면 `#element1`은 기본 속도로 슬라이드 다운되고,
+ `#element2`는 "slow" 속도로 슬라이드 다운되며, 
+ `#element3`은 1000 밀리초 속도로 슬라이드 다운됩니다. 
+ `#element3`이 슬라이드 다운이 완료되면 알림 창이 표시됩니다.
+
+ Sliding : slideUp()
+ • jQuery의 `slideUp()` 메서드는 요소를 슬라이드 업(위로 접기)하는 데 사용됩니다.
+• 문법:
+```javascript
+$(selector).slideUp(speed, callback);
+```
+• 선택적인 `speed` 매개변수는 효과의 지속 시간을 지정합니다. 
+    이 값은 "slow", "fast", 또는 밀리초 단위의 시간을 가질 수 있습니다.
+• 선택적인 `callback` 매개변수는 슬라이드가 완료된 후에 실행될 함수입니다.
+• 다음 예제는 `slideUp()` 메서드를 사용하는 방법을 보여줍니다:
+
+```javascript
+$(document).ready(function(){
+    $("#slideUpButton").click(function(){
+        // 기본 속도 사용
+        $("#element1").slideUp();
+
+        // "slow" 속도 사용
+        $("#element2").slideUp("slow");
+
+        // 1000 밀리초 속도 사용
+        $("#element3").slideUp(1000, function(){
+            alert("Slide up completed for element3.");
+        });
+    });
+});
+```
+
+`#element1`은 기본 속도로 슬라이드 업되고, 
+`#element2`는 "slow" 속도로 슬라이드 업되며, 
+`#element3`은 1000 밀리초 속도로 슬라이드 업됩니다. 
+`#element3`이 슬라이드 업이 완료되면 알림 창이 표시됩니다.
+
+Sliding : slideToggle()
+• jQuery의 `slideToggle()` 메서드는 `slideDown()`과 `slideUp()` 메서드 사이를 전환합니다.
+• 요소가 슬라이드 다운된 상태라면, `slideToggle()`은 요소를 슬라이드 업합니다.
+• 요소가 슬라이드 업된 상태라면, `slideToggle()`은 요소를 슬라이드 다운합니다.
+• 문법:
+```javascript
+$(selector).slideToggle(speed, callback);
+```
+• 선택적인 `speed` 매개변수는 효과의 지속 시간을 지정합니다. 
+이 값은 "slow", "fast", 또는 밀리초 단위의 시간을 가질 수 있습니다.
+• 선택적인 `callback` 매개변수는 슬라이드가 완료된 후에 실행될 함수입니다.
+• 다음 예제는 `slideToggle()` 메서드를 사용하는 방법을 보여줍니다:
+
+```javascript
+$(document).ready(function(){
+    $("#slideToggleButton").click(function(){
+        // 기본 속도 사용
+        $("#element1").slideToggle();
+
+        // "slow" 속도 사용
+        $("#element2").slideToggle("slow");
+
+        // 1000 밀리초 속도 사용
+        $("#element3").slideToggle(1000, function(){
+            alert("Slide toggle completed for element3.");
+        });
+    });
+});
+```
+
+`#element1`은 기본 속도로 슬라이드 토글되고, 
+`#element2`는 "slow" 속도로 슬라이드 토글되며, 
+`#element3`은 1000 밀리초 속도로 슬라이드 토글됩니다. 
+`#element3`이 슬라이드 토글이 완료되면 알림 창이 표시됩니다.
+
+
+• jQuery의 `animate()` 메서드는 사용자 정의 애니메이션을 생성하는 데 사용됩니다.
+• 문법:
+```javascript
+$(selector).animate({params}, speed, callback);
+```
+• 필수 `params` 매개변수는 애니메이션을 적용할 CSS 속성을 정의합니다.
+• 선택적인 `speed` 매개변수는 효과의 지속 시간을 지정합니다. 이 값은 "slow", "fast", 또는 밀리초 단위의 시간을 가질 수 있습니다.
+• 선택적인 `callback` 매개변수는 애니메이션이 완료된 후에 실행될 함수입니다.
+• 다음 예제는 `animate()` 메서드의 간단한 사용법을 보여줍니다. 이 예제에서는 <div> 요소를 왼쪽으로 이동시켜서 왼쪽 속성이 250px가 될 때까지 이동합니다:
+
+```javascript
+$(document).ready(function(){
+    $("button").click(function(){
+        $("div").animate({
+            left: '250px'
+        });
+    });
+});
+```
+
+버튼이 클릭되면 <div> 요소가 왼쪽으로 250px만큼 이동하는 간단한 애니메이션을 실행합니다.
+
+stop() 
+
+• 애니메이션이나 효과가 완료되기 전에 애니메이션을 중지하는 데 사용됩니다.
+• 모든 jQuery 효과 함수에 적용되며, 슬라이딩, 페이딩 및 사용자 정의 애니메이션을 포함합니다.
+• 문법:
+```javascript
+$(selector).stop(stopAll, goToEnd);
+```
+• 선택적인 `stopAll` 매개변수는 애니메이션 큐도 지워야 하는지 여부를 지정합니다. 
+    기본값은 false이며, 이는 현재 활성화된 애니메이션만 중지되고, 
+    그 이후에 대기 중인 애니메이션은 계속 실행되도록 합니다.
+• 선택적인 `goToEnd` 매개변수는 현재 애니메이션을 즉시 완료해야 하는지 여부를 지정합니다. 
+    기본값은 false입니다.
+• 따라서, 기본적으로 `stop()` 메서드는 선택한 요소에서 수행 중인 현재 애니메이션을 중지합니다.
+
+Callback Functions
+• 자바스크립트 문장은 한 줄씩 실행됩니다. 
+    그러나 효과를 사용할 때는 효과가 완료되지 않았더라도 다음 코드 줄이 실행될 수 있습니다. 
+    이렇게 되면 오류가 발생할 수 있습니다.
+• 이를 방지하기 위해 콜백 함수를 생성할 수 있습니다.
+• 콜백 함수는 현재 효과가 완료된 후에 실행됩니다.
+
+숨기기 효과가 완료된 후에 실행
+$(document).ready(function(){
+    $("button").click(function(){
+        $("div").hide(1000, function(){
+            alert("The hide effect is completed!");
+        });
+    });
+});
+
+hide() 메서드가 호출되고 나서 즉시 alert 창이 표시
+$(document).ready(function(){
+    $("button").click(function(){
+        $("div").hide(1000);
+        alert("The hide effect is not completed yet!");
+    });
+});
+
+Get Content - text(), html(), and val()
+• DOM 조작에 유용한 세 가지 간단한 jQuery 메서드는 다음과 같습니다:
+  - text() : 선택된 요소의 텍스트 내용을 설정하거나 반환합니다.
+  - html() : 선택된 요소의 내용을 설정하거나 반환합니다. (HTML 마크업 포함)
+  - val() : 폼 필드의 값을 설정하거나 반환합니다.
+• EX:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jQuery Text and HTML Example</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    // 버튼 클릭 시 text() 및 html() 메서드를 사용하여 요소의 내용 가져오기
+    $("#getTextBtn").click(function(){
+        var textContent = $("#myDiv").text();
+        alert("Text Content: " + textContent);
+    });
+
+    $("#getHtmlBtn").click(function(){
+        var htmlContent = $("#myDiv").html();
+        alert("HTML Content: " + htmlContent);
+    });
+});
+</script>
+</head>
+<body>
+
+<div id="myDiv">
+    <p>This is a paragraph with <b>bold</b> text.</p>
+</div>
+
+<button id="getTextBtn">Get Text Content</button>
+<button id="getHtmlBtn">Get HTML Content</button>
+
+</body>
+</html>
+
+버튼을 클릭하면 <div> 요소 내부의 텍스트 내용 및 HTML 내용을 가져와서 알림창에 표시합니다.
+
+Get Attributes - attr()
+• jQuery의 attr() 메서드는 속성 값을 가져오는 데 사용됩니다.
+EX:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jQuery attr() Method Example</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    // 버튼 클릭 시 href 속성 값 가져오기
+    $("#getHrefBtn").click(function(){
+        var hrefValue = $("#myLink").attr("href");
+        alert("Href Attribute Value: " + hrefValue);
+    });
+});
+</script>
+</head>
+<body>
+
+<a id="myLink" href="https://www.example.com">Click me</a>
+
+<button id="getHrefBtn">Get Href Attribute Value</button>
+
+</body>
+</html>
+버튼을 클릭하면 <a> 요소의 href 속성 값인 링크 주소를 가져와서 알림창에 표시합니다.
+
+Set Content - text(), html(), and val()
+  - text() : 선택된 요소의 텍스트 내용을 설정하거나 반환합니다.
+  - html() : 선택된 요소의 내용을 설정하거나 반환합니다. (HTML 마크업 포함)
+  - val() : 폼 필드의 값을 설정하거나 반환합니다.
+• ex
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jQuery Content Setting Example</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    // 버튼 클릭 시 text() 및 html() 메서드를 사용하여 콘텐츠 설정
+    $("#setTextBtn").click(function(){
+        $("#myDiv").text("This is new text content set using text() method.");
+    });
+
+    $("#setHtmlBtn").click(function(){
+        $("#myDiv").html("<p>This is new HTML content set using html() method.</p>");
+    });
+
+    $("#setValBtn").click(function(){
+        $("#myInput").val("New Value");
+    });
+});
+</script>
+</head>
+<body>
+
+<div id="myDiv">Original content</div>
+<input type="text" id="myInput" value="Original Value">
+
+<button id="setTextBtn">Set Text Content</button>
+<button id="setHtmlBtn">Set HTML Content</button>
+<button id="setValBtn">Set Value</button>
+
+</body>
+</html>
+각각의 버튼을 클릭하면 <div> 요소의 텍스트 내용, HTML 내용, 입력 필드의 값이 변경됩니다.
+
+Set : A Callback Function for text(), html(), and val() 
+모두 콜백 함수와 함께 제공됩니다. 
+콜백 함수에는 두 개의 매개변수가 있습니다: 
+    선택된 요소 목록에서 현재 요소의 인덱스와 원래(이전) 값입니다. 
+그런 다음 함수에서 사용할 새 값으로 사용할 문자열을 반환합니다.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jQuery Text and HTML with Callback Example</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    // text() 메서드에 콜백 함수 사용
+    $("#setTextBtn").click(function(){
+        $("#myDiv").text(function(index, oldText){
+            return "New text content (index: " + index + ", old text: " + oldText + ")";
+        });
+    });
+
+    // html() 메서드에 콜백 함수 사용
+    $("#setHtmlBtn").click(function(){
+        $("#myDiv").html(function(index, oldHtml){
+            return "<p>New HTML content (index: " + index + ", old html: " + oldHtml + ")</p>";
+        });
+    });
+});
+</script>
+</head>
+<body>
+
+<div id="myDiv">Original content</div>
+
+<button id="setTextBtn">Set Text Content</button>
+<button id="setHtmlBtn">Set HTML Content</button>
+
+</body>
+</html>
+버튼을 클릭하면 text() 및 html() 메서드에 콜백 함수가 사용되어 
+<div> 요소의 텍스트 내용과 HTML 내용이 변경됩니다. 
+각 콜백 함수는 현재 요소의 인덱스와 이전 값을 받아서 새 값을 반환합니다.
+
+Set Attributes - attr()
+• jQuery의 attr() 메서드는 속성 값을 설정하거나 변경하는 데에도 사용됩니다.
+• 다음 예제는 링크의 href 속성 값을 변경하는 방법을 보여줍니다:
+• attr() 메서드는 여러 속성을 동시에 설정할 수도 있습니다.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jQuery attr() Method Example</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    // href 속성 값 변경
+    $("#changeHrefBtn").click(function(){
+        $("#myLink").attr("href", "https://www.example.com/newlink");
+    });
+
+    // 여러 속성 동시에 설정
+    $("#setMultipleAttrsBtn").click(function(){
+        $("#myLink").attr({
+            "href": "https://www.example.com/newlink",
+            "title": "New Title"
+        });
+    });
+});
+</script>
+</head>
+<body>
+
+<a id="myLink" href="https://www.example.com">Click me</a>
+
+<button id="changeHrefBtn">Change Href Attribute Value</button>
+<button id="setMultipleAttrsBtn">Set Multiple Attributes</button>
+
+</body>
+</html>
+버튼을 클릭하여 링크의 href 속성 값을 변경하거나 여러 속성을 동시에 설정할 수 있습니다. 
+첫 번째 버튼은 href 속성 값만 변경하고, 두 번째 버튼은 href 및 title 속성을 동시에 변경합니다.
+
+ A Callback Function for attr()
+ • jQuery 메서드 attr()도 콜백 함수와 함께 제공됩니다. 
+    콜백 함수에는 두 개의 매개변수가 있습니다: 
+    선택된 요소 목록에서 현재 요소의 인덱스와 원래(이전) 속성 값입니다. 
+    그런 다음 함수에서 사용할 새 속성 값을 반환합니다.
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>jQuery attr() Method with Callback Example</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    // href 속성 값에 콜백 함수 사용
+    $("#changeHrefBtn").click(function(){
+        $("#myLink").attr("href", function(index, oldHref){
+            return oldHref + "/newpage";
+        });
+    });
+});
+</script>
+</head>
+<body>
+
+<a id="myLink" href="https://www.example.com">Click me</a>
+
+<button id="changeHrefBtn">Change Href Attribute Value</button>
+
+</body>
+</html>
+
+append():선택한 HTML 요소의 끝에 콘텐츠를 삽입합니다.
+prepend():선택한 HTML 요소의 시작 부분에 콘텐츠를 삽입합니다.
