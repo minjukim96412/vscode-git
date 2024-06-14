@@ -1,0 +1,89 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    height: 600px;
+    position: relative;
+}
+
+#wrapper {
+    width: 600px;
+    height: 700px;
+    border: 1px solid #aeacac;
+    padding: 20px;
+    background-color: #f3f0f0;
+}
+
+header {
+    background-color: rgb(252, 192, 192);
+    text-align: center;
+    font-size: 15pt;
+    padding: 8px 0;
+    margin-bottom: 20px;
+}
+
+#inputArea {
+    margin-bottom: 20px;
+}
+
+#title {
+    width: 500px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#insertBtn {
+    height: 100px;
+    clear: both;
+    padding: 10px;
+    position: relative;
+    float: right;
+    border: none;
+    background-color: rgb(167, 168, 168);
+}
+
+#content {
+    width: 500px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+#memoListArea {
+    width: 48%;
+    float: left;
+    border: 1px solid #333;
+    padding: 10px;
+    height: 400px;
+    
+}
+
+#memoContentArea {
+    width: 48%;
+    float: right;
+    border: 1px solid #333;
+    padding: 10px;
+    height: 400px;
+    background-color: aliceblue;
+}
+
+ul li {
+    background-color: antiquewhite;
+    list-style: none;
+    padding: 5px;
+    font-size: 10pt;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.deleteBtn {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
