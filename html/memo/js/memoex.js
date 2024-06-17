@@ -16,7 +16,7 @@ $(function() {
         const memoObj = {
             title: $("#title").val(),
             content: $("#content").val(),
-            regdate: Date.now()
+            date: new Date().toLocaleString()
         };
         addMemo(memoObj);
         updateMemoList();
@@ -24,7 +24,7 @@ $(function() {
         $("#content").val('');
     });
 
-    $("#listL").on("click", ".deleteBtn", function () {
+    $("#listL").on("click", "deleteBtn", function () {
         const index = $(this).data("index");
         removeMemo(index);
         updateMemoList();
@@ -32,17 +32,16 @@ $(function() {
     
     $("#listL").on("click", "li", function () {
         const index = $(this).data("index");
-        const memoList = JSON.parse(localStorage.getItem("memos")) || [];
+        const memoList = getMemoList();
         const memo = memoList[index];
         getTopMemo(memo);
     });
 });
 
-
 // localStorage의 메모리스트를 가져오는 함수
 function getMemoList() {
     let memoList = localStorage.getItem("memoList");
-    if (memoList==null || memoList=="") {
+    if (memoList == null || memoList == "") {
         localStorage.setItem("memoList", "[]");
         return [];
     } else {
@@ -51,8 +50,8 @@ function getMemoList() {
 }
 
 function updateMemoList() {
-    const memoList = JSON.parse(localStorage.getItem("memos")) || [];
-    const memoListElement = $("#listL");
+    const memoList = getMemoList();
+    const memoListElement = $("#listL ul");
     memoListElement.empty();
 
     memoList.forEach((memo, index) => {
@@ -67,49 +66,34 @@ function updateMemoList() {
         `);
         memoListElement.append(listItem);
     });
-
-    if (memoList.length > 0) {
-        const latestMemo = memoList[memoList.length - 1];
-        printMemoList(latestMemo);
+    const memoListLeng = memoList.length
+    if (memoListLeng > 0) {
+        const latestMemo = memoList[memoListLeng - 1];
+        getTopMemo(latestMemo);
     } else {
-        $("#listR").html(`
-            <p>제목 :</p>
-            <p>내용 :</p>
-            <p>작성일 :</p>
-        `);
+        $("#listR textarea").val('');
     }
 }
 
 // localStorage에 메모객체를 저장한다.
 function addMemo(memoObj) {
-    const memoListArr = getMemoList();
-    memoListArr[memoListArr.length] = memoObj;
-    localStorage.setItem("memoList", JSON.stringify(memoListArr));
-    printMemoList();
+    const memoList = getMemoList();
+    memoList.push(memoObj);
+    localStorage.setItem("memoList", JSON.stringify(memoList));
 }
 
 // localStorage의 메모리스트에서 메모를 삭제하는 함수
 function removeMemo(index) {
-    const memoList = JSON.parse(localStorage.getItem("memos")) || [];
+    const memoList = getMemoList();
     memoList.splice(index, 1);
-    localStorage.setItem("memos", JSON.stringify(memoList));
+    localStorage.setItem("memoList", JSON.stringify(memoList));
 }
 
 // 최신메모 하나를 가져오는 함수
 function getTopMemo(memo) {
-    $("#listR").html(`
-    <p>제목 : ${memo.title}</p>
-    <p>내용 : ${memo.content}</p>
-    <p>작성일 : ${memo.date}</p>
+    $("#listR textarea").val(`
+    제목: ${memo.title}
+    내용: ${memo.content}
+    작성일: ${memo.date}
     `);
-}
-
-// 메모리스트를 출력하는 함수
-function printMemoList() {
-    $("#listL ul").empty();
-    const memoList = getMemoList().reverse();
-    const memoListLeng = memoList.length;
-    for (let i=0; i<memoListLeng; i++) {
-        $("#listL ul").append("<li id='memo" + i + "'>" + memoList[i].title + "</li>");
-    }
 }

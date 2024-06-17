@@ -58,7 +58,7 @@ ul li {
     align-items: center;
 }
 
-.deleteBtn {
+deleteBtn {
     background-color: red;
     color: white;
     border: none;
