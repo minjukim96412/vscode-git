@@ -47,7 +47,7 @@ console.log(user_clone.name);
 console.log(user==user_clone);
 console.log(user===user_clone);
 
-//deep copy
+//lodash를 활용한 deep copy
 var _ = require('lodash');
 var Objects = [{'a':1},{'b':2}];
 
