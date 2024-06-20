@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>callback function</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="timeranimation.js"></script>
+    <style>
+        #box {
+            width: 500px;
+            height: 500px;
+            border: 1px solid #333;
+            position: relative;
+        }
+        img {
+            display: inline-block; position: absolute; 
+            top: 25px; width: 50px; height: 50px;
+        }
+        p{text-align: center; }
+        input[type = 'button'] {width: 120px; height: 35px; margin: 5px;}
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="box">
+            <img src="cat.jpg" id="cat">
+        </div>
+        <p>
+            <input type="button" id="moveToTop" value="TOP" />
+            <input type="button" id="moveToBottom" value="BOTTOM" />
+            <input type="button" id="pause" value="PAUSE" />
+            <input type="button" id="moveToLeft" value="LEFT" />
+            <input type="button" id="moveToRight" value="RIGHT" /><br />
+            <input id="speedUp" type="button" value="속도+1" />
+            <input id="speedDown" type="button" value="속도-1" />&nbsp;
+        </p>
+    </div>
+</body>
+</html>
