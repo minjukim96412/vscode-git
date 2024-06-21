@@ -2,45 +2,97 @@ body{
     margin: 0;
     padding: 0;
 }
+#nameTable {
+    background-color: rgb(147, 206, 44); 
+    height: 100px;
+}
 #box{
-    width: 700px;
+    width: 100%;
     height: 700px;
     border: 1px solid #333;
     position: relative;
     background-color: antiquewhite;
 }
-#start {
-    font-size: 20pt;
-    position: relative;
+.myButton {
+	box-shadow:inset 0px 0px 16px 3px #fff6af;
+	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	background-color:#ffec64;
+	border-radius:29px;
+	border:3px solid #ffaa22;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:25px;
+	font-weight:bold;
+	padding:10px 34px;
+	text-decoration:none;
+	text-shadow:0px 0px 0px #ffee66;
     float: right;
-    width: 200px;
-    height: 40px;
+    margin-top: 25px;
+    margin-right: 25px;
+    
 }
+.myButton:hover {
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	background-color:#ffab23;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
 h1 {
-    margin-top: 35px;
+    margin-left: 20px;
+    margin-top: 10px;
     width: 30%;
-    font-size: 30px;
+    font-size: 70px;
     position: absolute;
-   
+    font-family: "Dongle", sans-serif;
+    font-weight: 400;
+    font-style: bold;
 }
 img {
     display: inline-block; position: absolute;
-    width: 50px; height: 50px; 
 }
 
-#cat1 {
-    top: 150px;
+#skateboard {
+    top: 100px;
+    width: 120px;
 }
-#cat2 {
-    top: 250px;
+#blueCat {
+    top: 240px;
+    width: 100px;
 }
-#cat3 {
-    top: 350px;
+#rabbit {
+    top: 300px;
+    width: 120px;
+    left: -20px;
 }
-#cat4 {
-    top: 450px;
+#man {
+    top: 410px;
+    width: 90px;
 }
-#cat5 {
-    top: 550px;
+#lion {
+    top: 580px;
+    width: 150px;
 }
 
+p {
+    border: 2px solid white; margin-top: 110px;
+    clear: both;
+    width: 99%;
+}
+#timeTable {
+    color: #ffffff00;
+    font-size: 1px;
+}
+
+  body {
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif; 
+  }
+
+#player {
+    padding-top: 5px;
+    background-color: brown;
+    height: 105px;
+}

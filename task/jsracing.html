@@ -5,24 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>레이싱 게임</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
-    <script src="jsracing.js"></script>
+    <script src="jsracing copy.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <link rel="stylesheet" href="jsracing.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+</style>
+    
 <body>
     <div id="wrapper">
         <div id="box">
-            <div id="div2">
-                <h1>레이싱 v1.0</h1>&nbsp;
-                <p>
-                    <input type="button" value="START" id="start" />
-                </p>
-                <img id="cat1" src="cat.jpg" />
-                <img id="cat2" src="cat.jpg" />
-                <img id="cat3" src="cat.jpg" />
-                <img id="cat4" src="cat.jpg" />
-                <img id="cat5" src="cat.jpg" />
+            <div id="nameTable">
+                <h1>달 리 기  대회</h1>&nbsp;
+                <input type="button" class="myButton" id="start" value="시작!" >
             </div>
-            
+            <div id="lineTable">
+                <p></p>
+                <p></p>
+                <div id="player"><div>
+                <p></p>
+                <p></p>
+                <p></p>
+            </div>
+            <div id="raceTable">
+                <img id="skateboard" src="images/skateboard/skateboard1.png" />
+                <img id="blueCat" src="images/blueCat/blueCat1.png" />
+                <img id="rabbit" src="images/rabbit/rabbit1.png" />
+                <img id="man" src="images/man/man1.png" />
+                <img id="lion" src="images/lion/lion1.png" />
+            </div>
+            <div id="timeTable">
+
+            </div>
         </div>
     </div>
 </body>
