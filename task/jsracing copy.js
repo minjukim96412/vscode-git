@@ -41,7 +41,7 @@ const moveCat = function (ele) {
         if (!startTime) startTime = timestamp;
         const racingTime = (timestamp - startTime) * 0.001;
         if (ele !== "rabbit") {
-            if (frameCount % 5 === 0) {
+            if (frameCount % 8 === 0) {
                 speed = parseInt(Math.random() * 1000 + 2) % 13;
                 if (frameCount % 15 === 0) speed = parseInt(Math.random() * 1000 + 2) % 11;
                 if (endLeft < boxWidth - catWidth) {
@@ -59,7 +59,7 @@ const moveCat = function (ele) {
                 
                 cat.data("move", false);
                 if (endLeft < boxWidth - catWidth) {
-                    endLeft = Math.min(endLeft + 10, boxWidth - catWidth);
+                    endLeft = Math.min(endLeft + 15, boxWidth - catWidth);
                     cat.css({ left: endLeft + 'px' });
                     updateImage(ele);
                 } else {
