@@ -15,6 +15,15 @@ $(function () {
         moveCat("rabbit");
         moveCat("man");
         moveCat("lion");
+        $("#start").prop("disabled", true);
+    });
+
+    $(document).on('keydown', function (e) {
+        if (e.key === ' ') {
+            e.preventDefault();
+            const rabbit = $("#rabbit");
+            rabbit.data("move", true);
+        }
     });
 });
 
@@ -26,37 +35,45 @@ const moveCat = function (ele) {
     let endLeft = parseFloat(cat.css('left')) || 0;
     let ani = null;
     let startTime = null;
-    let frameCount = 0; 
+    let frameCount = 0;
 
     const animate = function (timestamp) {
-        if (!startTime) startTime = timestamp; 
-        const racingTime = (timestamp - startTime)*0.001; 
-        if (frameCount % 5 === 0) {
-            speed = parseInt(Math.random() * 1000+2)%13;
-            if(frameCount % 15 === 0) speed = parseInt(Math.random() * 1000+2)%11;
-            if (endLeft < boxWidth - catWidth) {
-                endLeft = Math.min(endLeft + speed, boxWidth - catWidth);
-                cat.css({ left: endLeft + 'px' });
-                updateImage(ele); 
-            } else {
-                cancelAnimationFrame(ani);
-                if(ele == "skateboard"){ele = "보드소년";}
-                if(ele == "blueCat"){ele = "파란고양이";}
-                if(ele == "rabbit"){ele = "토끼";}
-                if(ele == "man"){ele = "런닝맨";}
-                if(ele == "lion"){ele = "사자";}
-                $("#timeTable").append("<div>" + count + "등 " + ele + " <br /> 소요시간 : " + racingTime.toFixed(4) + "s</div>");
-                count++;
-                if(count > 5) rank();
-                return;
+        if (!startTime) startTime = timestamp;
+        const racingTime = (timestamp - startTime) * 0.001;
+        if (ele !== "rabbit") {
+            if (frameCount % 15 === 0) {
+                speed = parseInt(Math.random() * 1000 + 2) % 13;
+                if (frameCount % 15 === 0) speed = parseInt(Math.random() * 1000 + 2) % 13;
+                if (endLeft < boxWidth - catWidth) {
+                    endLeft = Math.min(endLeft + speed, boxWidth - catWidth);
+                    cat.css({ left: endLeft + 'px' });
+                    updateImage(ele);
+                } else {
+                    cancelAnimationFrame(ani);
+                    appendResult(ele, racingTime);
+                    return;
+                }
             }
-            console.log(ele + " : "+speed + " : "+Date.now());
+        } else {
+            if (cat.data("move")) {
+                cat.data("move", false);
+                if (endLeft < boxWidth - catWidth) {
+                    endLeft = Math.min(endLeft + 10, boxWidth - catWidth);
+                    cat.css({ left: endLeft + 'px' });
+                    updateImage(ele);
+                } else {
+                    cancelAnimationFrame(ani);
+                    appendResult(ele, racingTime);
+                    return;
+                }
+            }
         }
         frameCount++;
         ani = requestAnimationFrame(animate);
-    }
+    };
+
     ani = requestAnimationFrame(animate);
-}
+};
 
 const updateImage = function (ele) {
     if (ele === "skateboard" || ele === "blueCat") {
@@ -66,31 +83,49 @@ const updateImage = function (ele) {
     }
     const imgPath = `images/${ele}/${ele}${frameNumbers[ele]}.png`;
     $("#" + ele).attr("src", imgPath);
-}
+};
 
-const rank = function () { 
+const appendResult = function (ele, racingTime) {
+    const animalNames = {
+        skateboard: "보드소년",
+        blueCat: "파란고양이",
+        rabbit: "player",
+        man: "런닝맨",
+        lion: "사자"
+    };
+    const resultHtml = '<div id="' + ele + 'time' + '">' + count + "등 " + animalNames[ele] 
+        + " <br /> 소요시간 : " + racingTime.toFixed(4) + "s</div>";
+    $("#timeTable").append(resultHtml);
+    
+    // 토끼가 1등으로 들어왔는지 확인
+    if (ele === "rabbit" && count === 1) {
+        $("#timeTable").data("winner", "rabbit");
+    }
+    
+    count++;
+    if (count > 5) rank();
+};
+
+const rank = function () {
     let results = $("#timeTable").html();
-    Swal.fire({
-        title: "경기 결과",
-        html: results,
-        showClass: {
-            popup: `
-                animate__animated
-                animate__fadeInUp
-                animate__faster
-            `
-        },
-        hideClass: {
-            popup: `
-                animate__animated
-                animate__fadeOutDown
-                animate__faster
-            `
-        }
-    });
+    if ($("#timeTable").data("winner") === "rabbit") {
+        Swal.fire({
+            title: "You Win!",
+            html: results,
+            icon: "success"
+        });
+    } else {
+        Swal.fire({
+            title: "You Lose...",
+            html: results,
+            icon: "error"
+        });
+    }
+    
+    $("#start").prop("disabled", false);
     $("#start").attr("id", "restart");
     $("#restart").attr("value", "다시시작!");
     $("#restart").click(function () {
         window.location.reload();
     });
-}
+};
