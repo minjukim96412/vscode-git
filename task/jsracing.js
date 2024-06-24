@@ -41,9 +41,9 @@ const moveCat = function (ele) {
         if (!startTime) startTime = timestamp;
         const racingTime = (timestamp - startTime) * 0.001;
         if (ele !== "rabbit") {
-            if (frameCount % 15 === 0) {
-                speed = parseInt(Math.random() * 1000 + 2) % 13;
-                if (frameCount % 15 === 0) speed = parseInt(Math.random() * 1000 + 2) % 13;
+            if (frameCount % 5 === 0) {
+                speed = parseInt(Math.random() * 1000 + 2) % 15;
+                if (frameCount % 3 === 0) speed = parseInt(Math.random() * 1000 + 2) % 13;
                 if (endLeft < boxWidth - catWidth) {
                     endLeft = Math.min(endLeft + speed, boxWidth - catWidth);
                     cat.css({ left: endLeft + 'px' });
@@ -57,8 +57,9 @@ const moveCat = function (ele) {
         } else {
             if (cat.data("move")) {
                 cat.data("move", false);
+
                 if (endLeft < boxWidth - catWidth) {
-                    endLeft = Math.min(endLeft + 10, boxWidth - catWidth);
+                    endLeft = Math.min(endLeft + 12, boxWidth - catWidth);
                     cat.css({ left: endLeft + 'px' });
                     updateImage(ele);
                 } else {
@@ -93,9 +94,10 @@ const appendResult = function (ele, racingTime) {
         man: "런닝맨",
         lion: "사자"
     };
-    const resultHtml = '<div id="' + ele + 'time' + '">' + count + "등 " + animalNames[ele] 
-        + " <br /> 소요시간 : " + racingTime.toFixed(4) + "s</div>";
-    $("#timeTable").append(resultHtml);
+    const result = '<div id="' + ele + 'time' + '">'
+        + count + "등 " + animalNames[ele] + " <br /> 소요시간 : " 
+        + racingTime.toFixed(4) + "s</div>";
+    $("#timeTable").append(result);
     
     // 토끼가 1등으로 들어왔는지 확인
     if (ele === "rabbit" && count === 1) {
