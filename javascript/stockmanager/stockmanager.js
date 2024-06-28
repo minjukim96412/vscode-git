@@ -1,33 +1,55 @@
-$(() => {
-    updateShopList();
-    updateStokList();
-
-    // localStorage 초기화
+$(document).ready(function() {
+    // 초기화 및 업데이트
     initLocalStorage();
+    updateShopList();
 
+    // 매장 등록 버튼 클릭 이벤트
     $('#shwriteBtn').on('click', () => {
         writeShop();
         updateShopList();
     });
 
-   
-    $("#shopBody").on("click", "tr", function (tr) {
-            $('#stwriteBtn').on('click', () => {
-                writeStok();
-                updateStokList();
-            });
-            getShopList();
+    $("#shopBody").on("click", "tr", function() {
+        // 모든 행의 선택 상태 해제
+        $("#shopBody tr").removeClass('selected').css('background-color', '');
 
+        // 클릭된 행에 선택 클래스 추가 및 색상 변경
+        $(this).addClass('selected').css('background-color', 'lightgreen');
+
+        const shopId = $(this).find(".shno").text();
+        updateStokList(shopId);
     });
 
+    // 재고 등록 버튼 클릭 이벤트
+    $('#stwriteBtn').on('click', () => {
+        const selectedShopId = $("#shopBody tr.selected").find(".shno").text(); // 선택된 매장의 ID 가져오기
+        if (selectedShopId) {
+            writeStok(selectedShopId);
+        } else {
+            alert("먼저 매장을 선택하세요.");
+        }
+    });
 
+    // 마우스 이벤트 처리
+    $("#shopBody").on("mouseenter", "tr", function() {
+        if (!$(this).hasClass('selected')) {
+            $(this).css('background-color', 'lightgreen');
+        }
+    });
 
+    $("#shopBody").on("mouseleave", "tr", function() {
+        if (!$(this).hasClass('selected')) {
+            $(this).css('background-color', 'rgba(230, 244, 250, 0.683)');
+        }
+    });
+
+    // 기타 이벤트 핸들러
     $("#shopBody").on("click", ".deleteBtn", (event) => {
         const index = $(event.currentTarget).data("index");
         removeShop(index);
         updateShopList();
     });
-    
+
     $("#shopBody").on("click", ".updateBtn", (event) => {
         const index = $(event.currentTarget).data("index");
         popUpdate(index);
@@ -36,20 +58,32 @@ $(() => {
     $("#stokBody").on("click", ".deleteBtn", (event) => {
         const index = $(event.currentTarget).data("index");
         removeStok(index);
-        updateStokList();
+        const selectedShopId = $("#shopBody tr.selected").map(function() { return $(this).find(".shno").text(); }).get();
+        selectedShopId.forEach(shopId => updateStokList(shopId));
     });
-    
+
     $("#stokBody").on("click", ".updateBtn", (event) => {
         const index = $(event.currentTarget).data("index");
         popStokUpdate(index);
     });
 
     $("#stokBody").on("click", ".stamt", (event) => {
-        const index = $(event.currentTarget).closest("tr").index();
-        popStokAmtUpdate(index);
+        // 클릭한 행에서 stno 값을 가져오기
+        const stno = $(event.currentTarget).closest("tr").find("td:first").text();
+        const selectedShopId = $("#shopBody tr.selected").find(".shno").text();
+        
+        // 해당 stno 값으로 재고 항목 찾기
+        const stokList = getStokList();
+        const index = stokList.findIndex(stok => stok.stno == stno && stok.shno == selectedShopId);
+        
+        // 해당 재고 항목의 인덱스로 popStokAmtUpdate 호출
+        if (index !== -1) {
+            popStokAmtUpdate(index);
+        } else {
+            console.error("해당 재고 항목을 찾을 수 없습니다.");
+        }
     });
 });
-
 // localStorage 초기화
 const initLocalStorage = () => {
     if (localStorage) {
@@ -73,7 +107,9 @@ const writeShop = () => {
     const shopArr = JSON.parse(localStorage.getItem('shopList'));
     shopArr.push(new Shop(getNextShopSeq(), $('#shname').val(), 0));
     localStorage.setItem('shopList', JSON.stringify(shopArr));
+    updateShopList(); // 수정된 매장 목록을 업데이트
 };
+
 
 // 매장 번호 시퀀스
 const getNextShopSeq = () => {
@@ -93,24 +129,43 @@ const getShopList = () => {
     }
 }
 
-const updateShopList= () => {
-    const shopList = getShopList();
-    const shopListElement = $("#shopBody");
-    shopListElement.empty();
+const updateShopList = () => {
+    const shopList = getShopList(); // 로컬 스토리지에서 매장 목록 가져오기
+    const shopListElement = $("#shopBody"); // 매장 목록을 표시할 HTML 요소 선택
+    shopListElement.empty(); // 기존의 매장 목록을 비웁니다.
 
+    // 각 매장에 대해 HTML 요소를 생성하고 테이블에 추가합니다.
     shopList.forEach((shop, index) => {
+        const totalStockAmount = getTotalStockAmount(shop.shno); // 해당 매장의 총 재고 수량 계산
+
         const listItem = $(`
             <tr>
                 <td class="shno">${shop.shno}</td>
                 <td class="shname">${shop.shname}</td>
-                <td>${shop.shtotst}</td>
+                <td>${totalStockAmount}</td>
                 <td><button class="updateBtn" data-index="${index}">수정</button></td>
                 <td><button class="deleteBtn" data-index="${index}">삭제</button></td>
-            </tr>    
+            </tr>
         `);
-        shopListElement.append(listItem);
+        shopListElement.append(listItem); // 생성된 행을 매장 목록 요소에 추가합니다.
     });
-}
+};
+
+// 매장에 속하는 모든 재고의 수량을 합산하여 반환하는 함수
+const getTotalStockAmount = (shopId) => {
+    const stokList = getStokList(); // 모든 재고 목록 가져오기
+    let totalAmount = 0;
+
+    // 해당 매장(shopId)에 속하는 모든 재고의 수량을 합산합니다.
+    stokList.forEach((stok) => {
+        if (stok.shno === shopId) {
+            totalAmount += parseInt(stok.stamt); // 수량을 정수형으로 변환하여 합산
+        }
+    });
+
+    return totalAmount;
+};
+
 
 // 매장명 수정
 const updateShop = (index, newName) => {
@@ -166,8 +221,8 @@ const getNextStokSeq = () => {
 };
 
 // 재고 목록 업데이트
-const updateStokList= () => {
-    const stokList = getStokList();
+const updateStokList = (shopId) => {
+    const stokList = getStokList().filter(stok => stok.shno == shopId);
     const stokListElement = $("#stokBody");
     stokListElement.empty();
 
@@ -185,14 +240,40 @@ const updateStokList= () => {
         `);
         stokListElement.append(listItem);
     });
-}
-// 재고 등록
-const writeStok = (ele) => {
-    const stokArr = JSON.parse(localStorage.getItem('stokList'));
-    const strgdate = new Date();
-    stokArr.push(new Stock(getNextStokSeq(), $('#stname').val(), $('#stamt').val(), $('#stindate').val(), strgdate.toLocaleString('ja-JP'), ele));
-    localStorage.setItem('stokList', JSON.stringify(stokArr));
 };
+
+
+
+// 재고 등록
+const writeStok = () => {
+    const shopList = getShopList();
+    const stokArr = JSON.parse(localStorage.getItem('stokList')) || [];
+    const strgdate = new Date();
+    const stno = getNextStokSeq(); // 고유한 stno를 하나 생성
+    const selectedShopId = $("#shopBody tr.selected").find(".shno").text(); // 선택된 매장의 ID 가져오기
+    const stamt = $('#stamt').val(); // 사용자가 입력한 재고 수량 가져오기
+
+    shopList.forEach(shop => {
+        let totalStokAmt = 0; // 각 매장의 총 재고 수량을 계산하기 위한 변수 초기화
+        if (shop.shno == selectedShopId) {
+            // 선택한 매장에 대해서는 사용자가 입력한 재고 수량으로 등록
+            stokArr.push(new Stock(stno, $('#stname').val(), stamt, $('#stindate').val(), strgdate.toLocaleString('ja-JP'), shop.shno));
+            totalStokAmt += parseInt(stamt); // 등록된 재고 수량을 총 재고 수량에 추가
+        } else {
+            // 선택하지 않은 매장에 대해서는 재고 수량을 0으로 설정하여 등록
+            stokArr.push(new Stock(stno, $('#stname').val(), 0, $('#stindate').val(), strgdate.toLocaleString('ja-JP'), shop.shno));
+        }
+
+        // 현재 매장의 총 재고 수량을 계산하여 shopList에 업데이트
+        shop.shtotst = totalStokAmt;
+    });
+
+    localStorage.setItem('stokList', JSON.stringify(stokArr));
+    localStorage.setItem('shopList', JSON.stringify(shopList)); // shopList 업데이트
+    updateStokList(selectedShopId);// 선택된 매장의 재고 목록 업데이트
+    updateShopList(); 
+};
+
 
 // 재고 수정
 const updateStok = (index, newName) => {
@@ -217,7 +298,8 @@ const popStokUpdate = (index) => {
         allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
         if (result.isConfirmed) {
-            updateStokList();
+            const selectedShopId = $("#shopBody tr.selected").find(".shno").text();
+            updateStokList(selectedShopId); // 수량 변경 후 재고 목록 업데이트
         }
     });
 }
@@ -241,18 +323,23 @@ const popStokAmtUpdate = (index) => {
         confirmButtonText: "저장",
         showLoaderOnConfirm: true,
         preConfirm: (newAmt) => {
-            updateStokAmt(index, newAmt);
+            return new Promise((resolve) => {
+                updateStokAmt(index, newAmt); // 재고 수량 업데이트 함수 호출
+                resolve();
+            });
         },
         allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
         if (result.isConfirmed) {
-            updateStokList();
+            const selectedShopId = $("#shopBody tr.selected").find(".shno").text();
+            updateStokList(selectedShopId); // 재고 목록 업데이트 함수 호출
+            updateShopList();
         }
     });
-}
+};
 
 const updateStokAmt = (index, newAmt) => {
     const stokList = getStokList();
     stokList[index].stamt = newAmt;
-    localStorage.setItem('stokList',  JSON.stringify(stokList));
+    localStorage.setItem('stokList', JSON.stringify(stokList));
 };

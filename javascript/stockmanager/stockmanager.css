@@ -75,9 +75,53 @@ input[type='button'] {
     width: 70px;
 }
 
+table {
+    background-color: rgba(230, 244, 250, 0.683);
+}
 
+.updateBtn,.deleteBtn {
+	box-shadow:inset -1px -3px 9px 0px #a0c2bd;
+	background:linear-gradient(to bottom, #768d87 5%, #94baba 100%);
+	background-color:#a4c4bb;
+	border-radius:5px;
+	border:1px solid #6e8880;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:14px;
+	font-weight:bold;
+	width: 100%;
+    height: 100%;
+	text-decoration:none;
+	text-shadow:0px 2px 0px #2b665e;
+}
+.updateBtn:hover,.deleteBtn:hover {
+	background:linear-gradient(to bottom, #c4fbfb 5%, #73b4a3 100%);
+	background-color:#78aeae;
+}
+.updateBtn:active,.updateBtn:active {
+	position:relative;
+	top:1px;
+}
 
-
-
-
-
+#stwriteBtn,#shwriteBtn {
+	box-shadow:inset 0px 39px 0px -24px #e67a73;
+	background-color:#e4685d;
+	border-radius:4px;
+	border:1px solid #ffffff;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #b23e35;
+}
+#stwriteBtn:hover,#shwriteBtn:hover {
+	background-color:#eb675e;
+}
+#stwriteBtn:active,#shwriteBtn:active {
+	position:relative;
+	top:1px;
+}
