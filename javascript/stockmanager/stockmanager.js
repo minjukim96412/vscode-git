@@ -276,13 +276,23 @@ const writeStok = () => {
 
 
 // 재고 수정
-const updateStok = (index, newName) => {
+const updateStok = (stno, newName) => {
     const stokList = getStokList();
-    stokList[index].stname = newName;
+
+    // 동일한 stno를 가진 모든 재고 제품명을 변경
+    stokList.forEach((stok) => {
+        if (stok.stno === stno) {
+            stok.stname = newName;
+        }
+    });
+
     localStorage.setItem('stokList', JSON.stringify(stokList));
 };
 
 const popStokUpdate = (index) => {
+    const stokList = getStokList();
+    const stno = stokList[index].stno; // 변경할 재고의 stno를 가져옴
+
     Swal.fire({
         title: "재고명을 입력해주세요",
         input: "text",
@@ -293,16 +303,17 @@ const popStokUpdate = (index) => {
         confirmButtonText: "Save",
         showLoaderOnConfirm: true,
         preConfirm: (newName) => {
-            updateStok(index, newName);
+            updateStok(stno, newName); // stno를 기준으로 모든 매장의 재고명 업데이트
         },
         allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
         if (result.isConfirmed) {
             const selectedShopId = $("#shopBody tr.selected").find(".shno").text();
-            updateStokList(selectedShopId); // 수량 변경 후 재고 목록 업데이트
+            updateStokList(selectedShopId); // 선택된 매장의 재고 목록 업데이트
+            updateShopList(); // 모든 매장의 재고 목록 업데이트
         }
     });
-}
+};
 
 // 재고 삭제
 const removeStok = (index) => {
