@@ -56,15 +56,16 @@ $(document).ready(function() {
     });
 
     $("#stokBody").on("click", ".deleteBtn", (event) => {
-        const index = $(event.currentTarget).data("index");
-        removeStok(index);
-        const selectedShopId = $("#shopBody tr.selected").map(function() { return $(this).find(".shno").text(); }).get();
-        selectedShopId.forEach(shopId => updateStokList(shopId));
+        const stno = $(event.currentTarget).data("stno");
+        removeStok(stno);
+        const selectedShopId = $("#shopBody tr.selected").find(".shno").text();
+        updateStokList(selectedShopId);
+        updateShopList();
     });
 
     $("#stokBody").on("click", ".updateBtn", (event) => {
-        const index = $(event.currentTarget).data("index");
-        popStokUpdate(index);
+        const stno = $(event.currentTarget).data("stno");
+        popStokUpdate(stno);
     });
 
     $("#stokBody").on("click", ".stamt", (event) => {
@@ -226,16 +227,16 @@ const updateStokList = (shopId) => {
     const stokListElement = $("#stokBody");
     stokListElement.empty();
 
-    stokList.forEach((stok, index) => {
+    stokList.forEach((stok) => {
         const listItem = $(`
-            <tr>
+            <tr data-stno="${stok.stno}">
                 <td>${stok.stno}</td>
                 <td class="stname">${stok.stname}</td>
                 <td class="stamt">${stok.stamt}</td>
                 <td>${stok.stindate}</td>
                 <td>${stok.strgdate}</td>
-                <td><button class="updateBtn" data-index="${index}">수정</button></td>
-                <td><button class="deleteBtn" data-index="${index}">삭제</button></td>
+                <td><button class="updateBtn" data-stno="${stok.stno}">수정</button></td>
+                <td><button class="deleteBtn" data-stno="${stok.stno}">삭제</button></td>
             </tr>    
         `);
         stokListElement.append(listItem);
@@ -288,11 +289,7 @@ const updateStok = (stno, newName) => {
 
     localStorage.setItem('stokList', JSON.stringify(stokList));
 };
-
-const popStokUpdate = (index) => {
-    const stokList = getStokList();
-    const stno = stokList[index].stno; // 변경할 재고의 stno를 가져옴
-
+const popStokUpdate = (stno) => {
     Swal.fire({
         title: "재고명을 입력해주세요",
         input: "text",
@@ -303,24 +300,24 @@ const popStokUpdate = (index) => {
         confirmButtonText: "Save",
         showLoaderOnConfirm: true,
         preConfirm: (newName) => {
-            updateStok(stno, newName); // stno를 기준으로 모든 매장의 재고명 업데이트
+            updateStok(stno, newName);
         },
         allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
         if (result.isConfirmed) {
             const selectedShopId = $("#shopBody tr.selected").find(".shno").text();
-            updateStokList(selectedShopId); // 선택된 매장의 재고 목록 업데이트
-            updateShopList(); // 모든 매장의 재고 목록 업데이트
+            updateStokList(selectedShopId);
+            updateShopList();
         }
     });
 };
 
 // 재고 삭제
-const removeStok = (index) => {
-    const stokList = getStokList();
-    stokList.splice(index, 1);
+const removeStok = (stno) => {
+    let stokList = getStokList();
+    stokList = stokList.filter(stok => stok.stno !== stno);
     localStorage.setItem("stokList", JSON.stringify(stokList));
-}
+};
 
 // 재고수량변경
 const popStokAmtUpdate = (index) => {
