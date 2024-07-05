@@ -1,0 +1,8 @@
+{
+    "name": "sweetalert",
+    "path": "../node_modules/sweetalert",
+    "main": "dist/sweetalert.min",
+    "resources": [
+      "dist/sweetalert.css"
+    ]
+  }

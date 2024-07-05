@@ -10,6 +10,13 @@
   "license": "ISC",
   "description": "typescript study",
   "devDependencies": {
+    "@types/jquery": "^3.5.30",
     "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@types/sweetalert": "^2.0.4",
+    "jquery": "^3.7.1",
+    "jsdom": "^24.1.0",
+    "sweetalert2": "^11.12.1"
   }
 }
