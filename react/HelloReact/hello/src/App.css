@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,13 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+select {
+  width: 200px; background-color: rgb(243, 238, 231);
 }
+
+div {
+  background-color: gainsboro;
+}
+

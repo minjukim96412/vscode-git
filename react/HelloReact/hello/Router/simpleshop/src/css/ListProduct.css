@@ -1,0 +1,33 @@
+/* ListProduct.css */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4열로 설정 */
+    grid-gap: 20px; /* 그리드 간격 설정 */
+  }
+  
+  /* 상품 아이템의 스타일 */
+  .product {
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .product img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .product h2 {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .product p {
+    margin-bottom: 5px;
+  }
+  
+  .product p:last-child {
+    font-weight: bold;
+  }
+  
